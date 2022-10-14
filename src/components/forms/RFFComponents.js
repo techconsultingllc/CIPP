@@ -258,11 +258,20 @@ RFFCFormSelect.propTypes = {
   values: PropTypes.arrayOf(PropTypes.shape({ label: PropTypes.string, value: PropTypes.any })),
 }
 
-export function Condition({ when, is, children }) {
+export function Condition({ when, is, children, like }) {
   return (
-    <Field name={when} subscription={{ value: true }}>
-      {({ input: { value } }) => (value === is ? children : null)}
-    </Field>
+    <>
+      {is && (
+        <Field name={when} subscription={{ value: true }}>
+          {({ input: { value } }) => (value === is ? children : null)}
+        </Field>
+      )}
+      {like && (
+        <Field name={when} subscription={{ value: true }}>
+          {({ input: { value } }) => (value.includes(like) ? children : null)}
+        </Field>
+      )}
+    </>
   )
 }
 
@@ -293,18 +302,35 @@ export const RFFSelectSearch = ({
         return (
           <div>
             <CFormLabel htmlFor={name}>{label}</CFormLabel>
-            <Select
-              className="react-select-container"
-              classNamePrefix="react-select"
-              {...input}
-              isClearable={true}
-              name={name}
-              id={name}
-              disabled={disabled}
-              options={selectSearchvalues}
-              placeholder={placeholder}
-              isMulti={multi}
-            />
+            {onChange && (
+              <Select
+                className="react-select-container"
+                classNamePrefix="react-select"
+                {...input}
+                isClearable={true}
+                name={name}
+                id={name}
+                disabled={disabled}
+                options={selectSearchvalues}
+                placeholder={placeholder}
+                isMulti={multi}
+                onChange={onChange}
+              />
+            )}
+            {!onChange && (
+              <Select
+                className="react-select-container"
+                classNamePrefix="react-select"
+                {...input}
+                isClearable={true}
+                name={name}
+                id={name}
+                disabled={disabled}
+                options={selectSearchvalues}
+                placeholder={placeholder}
+                isMulti={multi}
+              />
+            )}
             <RFFCFormFeedback meta={meta} />
           </div>
         )

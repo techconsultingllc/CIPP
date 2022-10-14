@@ -1,8 +1,16 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { CippCodeBlock, CippOffcanvas } from 'src/components/utilities'
-import { CippDatatable } from 'src/components/tables'
-import { CCardBody, CButton, CCallout, CSpinner } from '@coreui/react'
+import { CellTip, CippDatatable } from 'src/components/tables'
+import {
+  CCardBody,
+  CButton,
+  CCallout,
+  CSpinner,
+  CCardHeader,
+  CCardTitle,
+  CCard,
+} from '@coreui/react'
 import { faEye, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useLazyGenericGetRequestQuery } from 'src/store/api/app'
@@ -10,7 +18,6 @@ import { CippPage } from 'src/components/layout'
 import { ModalService } from 'src/components/utilities'
 
 //todo: expandable with RAWJson property.
-/* eslint-disable-next-line react/prop-types */
 
 const AutopilotListTemplates = () => {
   const tenant = useSelector((state) => state.app.currentTenant)
@@ -63,19 +70,26 @@ const AutopilotListTemplates = () => {
       name: 'Display Name',
       selector: (row) => row['Displayname'],
       sortable: true,
+      cell: (row) => CellTip(row['Displayname']),
       exportSelector: 'Displayname',
+      minWidth: '400px',
+      maxWidth: '400px',
     },
     {
       name: 'Description',
       selector: (row) => row['Description'],
       sortable: true,
+      cell: (row) => CellTip(row['Description']),
       exportSelector: 'Description',
+      minWidth: '400px',
+      maxWidth: '400px',
     },
     {
       name: 'Type',
       selector: (row) => row['Type'],
       sortable: true,
       exportSelector: 'Type',
+      maxWidth: '100px',
     },
     {
       name: 'GUID',
@@ -86,29 +100,36 @@ const AutopilotListTemplates = () => {
     {
       name: 'Actions',
       cell: Offcanvas,
+      maxWidth: '100px',
     },
   ]
 
   return (
     <CippPage title="Available Endpoint Manager Templates" tenantSelector={false}>
-      <CCardBody>
-        {getResults.isFetching && (
-          <CCallout color="info">
-            <CSpinner>Loading</CSpinner>
-          </CCallout>
-        )}
-        {getResults.isSuccess && <CCallout color="info">{getResults.data?.Results}</CCallout>}
-        {getResults.isError && (
-          <CCallout color="danger">Could not connect to API: {getResults.error.message}</CCallout>
-        )}
-        <CippDatatable
-          keyField="id"
-          reportName={`${tenant?.defaultDomainName}-MEMPolicyTemplates-List`}
-          path="/api/ListIntuneTemplates"
-          columns={columns}
-          params={{ TenantFilter: tenant?.defaultDomainName }}
-        />
-      </CCardBody>
+      <CCard className="content-card">
+        <CCardHeader className="d-flex justify-content-between align-items-center">
+          <CCardTitle>Endpoint Manager Templates</CCardTitle>
+        </CCardHeader>
+        <CCardBody>
+          {getResults.isFetching && (
+            <CCallout color="info">
+              <CSpinner>Loading</CSpinner>
+            </CCallout>
+          )}
+          {getResults.isSuccess && <CCallout color="info">{getResults.data?.Results}</CCallout>}
+          {getResults.isError && (
+            <CCallout color="danger">Could not connect to API: {getResults.error.message}</CCallout>
+          )}
+
+          <CippDatatable
+            keyField="id"
+            reportName={`${tenant?.defaultDomainName}-MEMPolicyTemplates-List`}
+            path="/api/ListIntuneTemplates"
+            columns={columns}
+            params={{ TenantFilter: tenant?.defaultDomainName }}
+          />
+        </CCardBody>
+      </CCard>
     </CippPage>
   )
 }

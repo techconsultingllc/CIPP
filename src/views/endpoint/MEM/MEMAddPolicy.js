@@ -7,6 +7,7 @@ import { CippWizard } from 'src/components/layout'
 import { WizardTableField } from 'src/components/tables'
 import PropTypes from 'prop-types'
 import {
+  Condition,
   RFFCFormInput,
   RFFCFormRadio,
   RFFCFormSelect,
@@ -46,7 +47,6 @@ const AddPolicy = () => {
     values.TemplateType = values.Type
     genericPostRequest({ path: '/api/AddPolicy', values: values })
   }
-  /* eslint-disable react/prop-types */
   const WhenFieldChanges = ({ field, set }) => (
     <Field name={set} subscription={{}}>
       {(
@@ -187,6 +187,11 @@ const AddPolicy = () => {
             />
           </CCol>
         </CRow>
+        <Condition when="RAWJson" like="%%">
+          <CRow>
+            <CCol md={12}>#create list of tenants here, with variable name</CCol>
+          </CRow>
+        </Condition>
         <RFFCFormRadio value="" name="AssignTo" label="Do not assign"></RFFCFormRadio>
         <RFFCFormRadio
           value="allLicensedUsers"
@@ -218,7 +223,6 @@ const AddPolicy = () => {
         {!postResults.isSuccess && (
           <FormSpy>
             {(props) => {
-              /* eslint-disable react/prop-types */
               return (
                 <>
                   <CRow>

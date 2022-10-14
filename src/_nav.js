@@ -12,11 +12,11 @@ import {
   faHdd,
   faLink,
   faUsers,
-  faEnvelope,
   faWindowRestore,
-  faUnlock,
   faKey,
   faBus,
+  faExclamationTriangle,
+  faUserShield,
 } from '@fortawesome/free-solid-svg-icons'
 
 const _nav = [
@@ -50,6 +50,16 @@ const _nav = [
       },
       {
         component: CNavItem,
+        name: 'Group Templates',
+        to: '/identity/administration/group-templates',
+      },
+      {
+        component: CNavItem,
+        name: 'Deploy Group Template',
+        to: '/identity/administration/deploy-group-template',
+      },
+      {
+        component: CNavItem,
         name: 'Roles',
         to: '/identity/administration/roles',
       },
@@ -74,11 +84,6 @@ const _nav = [
     items: [
       {
         component: CNavItem,
-        name: 'Devices',
-        to: '/identity/reports/devices',
-      },
-      {
-        component: CNavItem,
         name: 'MFA Report',
         to: '/identity/reports/mfa-report',
       },
@@ -86,6 +91,11 @@ const _nav = [
         component: CNavItem,
         name: 'Basic Auth Report',
         to: '/identity/reports/basic-auth-report',
+      },
+      {
+        component: CNavItem,
+        name: 'Sign-in Report',
+        to: '/identity/reports/signin-report',
       },
       {
         component: CNavItem,
@@ -161,7 +171,7 @@ const _nav = [
     items: [
       {
         component: CNavItem,
-        name: 'List Applied Standards',
+        name: 'List and Edit Standards',
         to: '/tenant/standards/list-applied-standards',
       },
       {
@@ -200,8 +210,18 @@ const _nav = [
       },
       {
         component: CNavItem,
+        name: 'List Named Locations',
+        to: '/tenant/conditional/list-named-locations',
+      },
+      {
+        component: CNavItem,
         name: 'Deploy Conditional Access',
         to: '/tenant/conditional/deploy',
+      },
+      {
+        component: CNavItem,
+        name: 'Deploy Named Locations',
+        to: '/tenant/conditional/deploy-named-location',
       },
       {
         component: CNavItem,
@@ -221,16 +241,58 @@ const _nav = [
   },
   {
     component: CNavGroup,
-    name: 'Reports',
+    name: 'Incidents & Alerts',
     section: 'Security & Compliance',
-    to: '/security/reports',
-    icon: <FontAwesomeIcon icon={faUnlock} className="nav-icon" />,
+    to: '/security/incidents',
+    icon: <FontAwesomeIcon icon={faExclamationTriangle} className="nav-icon" />,
     items: [
       {
         component: CNavItem,
-        name: 'List Alerts',
-        to: '/security/reports/list-alerts',
+        name: 'List Incidents',
+        to: '/security/incidents/list-incidents',
       },
+      {
+        component: CNavItem,
+        name: 'List Alerts',
+        to: '/security/incidents/list-alerts',
+      },
+    ],
+  },
+  // Coming in another branch (heads up)
+  //{
+  //component: CNavGroup,
+  //name: 'Vulnerabilities',
+  //section: 'Security & Compliance',
+  //to: '/security/vulnerabilities',
+  //icon: <FontAwesomeIcon icon={faChessRook} className="nav-icon" />,
+  //items: [],
+  //},
+  {
+    component: CNavGroup,
+    name: 'Defender',
+    section: 'Security & Compliance',
+    to: '/security/defender',
+    icon: <FontAwesomeIcon icon={faShieldAlt} className="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'Defender Deployment',
+        to: '/security/defender/deployment',
+      },
+      {
+        component: CNavItem,
+        name: 'Defender Status',
+        to: '/security/defender/list-defender',
+      },
+    ],
+  },
+  {
+    component: CNavGroup,
+    name: 'Reports',
+    section: 'Security & Compliance',
+    to: '/security/reports',
+    icon: <FontAwesomeIcon icon={faChartBar} className="nav-icon" />,
+    items: [
       {
         component: CNavItem,
         name: 'Device Compliance',
@@ -240,7 +302,7 @@ const _nav = [
   },
   {
     component: CNavTitle,
-    name: 'Endpoint Management',
+    name: 'Intune',
   },
   {
     component: CNavGroup,
@@ -269,6 +331,11 @@ const _nav = [
         name: 'Add Office App',
         to: '/endpoint/applications/add-office-app',
       },
+      {
+        component: CNavItem,
+        name: 'Add MSP App',
+        to: '/endpoint/applications/add-rmm-app',
+      },
     ],
   },
   {
@@ -295,7 +362,7 @@ const _nav = [
       },
       {
         component: CNavItem,
-        name: 'List Devices',
+        name: 'List Autopilot Devices',
         to: '/endpoint/autopilot/list-devices',
       },
       {
@@ -312,11 +379,16 @@ const _nav = [
   },
   {
     component: CNavGroup,
-    name: 'MEM (Intune)',
+    name: 'Device Management',
     section: 'Endpoint Management',
     to: '/endpoint/MEM',
     icon: <FontAwesomeIcon icon={faExchangeAlt} className="nav-icon" />,
     items: [
+      {
+        component: CNavItem,
+        name: 'List Devices',
+        to: '/endpoint/reports/devices',
+      },
       {
         component: CNavItem,
         name: 'List MEM Policies',
@@ -336,20 +408,6 @@ const _nav = [
         component: CNavItem,
         name: 'List Templates',
         to: '/endpoint/MEM/list-templates',
-      },
-    ],
-  },
-  {
-    component: CNavGroup,
-    name: 'Defender',
-    section: 'Endpoint Management',
-    to: '/endpoint/defender',
-    icon: <FontAwesomeIcon icon={faShieldAlt} className="nav-icon" />,
-    items: [
-      {
-        component: CNavItem,
-        name: 'Defender Status',
-        to: '/endpoint/defender/list-defender',
       },
     ],
   },
@@ -432,8 +490,18 @@ const _nav = [
       },
       {
         component: CNavItem,
+        name: 'Mailbox Rules',
+        to: '/email/administration/mailbox-rules',
+      },
+      {
+        component: CNavItem,
         name: 'Contacts',
         to: '/email/administration/contacts',
+      },
+      {
+        component: CNavItem,
+        name: 'Quarantine',
+        to: '/email/administration/quarantine',
       },
     ],
   },
@@ -471,7 +539,7 @@ const _nav = [
     name: 'Reports',
     section: 'Email & Exchange',
     to: '/email/reports',
-    icon: <FontAwesomeIcon icon={faEnvelope} className="nav-icon" />,
+    icon: <FontAwesomeIcon icon={faChartBar} className="nav-icon" />,
     items: [
       {
         component: CNavItem,
@@ -513,13 +581,43 @@ const _nav = [
       },
       {
         component: CNavItem,
-        name: 'SAM Setup Wizard (β)',
+        name: 'SAM Setup Wizard',
         to: '/cipp/setup',
       },
       {
         component: CNavItem,
         name: 'Documentation',
         href: 'https://cipp.app',
+        target: '_blank',
+      },
+    ],
+  },
+  {
+    component: CNavGroup,
+    name: 'GDAP Migration',
+    section: 'Settings',
+    to: '/cipp/gdap',
+    icon: <FontAwesomeIcon icon={faUserShield} className="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'Migration Wizard',
+        to: '/tenant/administration/gdap',
+      },
+      {
+        component: CNavItem,
+        name: 'GDAP Migration Status',
+        to: '/tenant/administration/gdap-status',
+      },
+      {
+        component: CNavItem,
+        name: 'Application Approval',
+        to: '/tenant/administration/appapproval',
+      },
+      {
+        component: CNavItem,
+        name: 'Documentation',
+        href: 'https://cipp.app/docs/user/usingcipp/GDAP/migration',
         target: '_blank',
       },
     ],

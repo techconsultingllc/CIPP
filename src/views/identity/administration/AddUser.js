@@ -56,7 +56,6 @@ const AddUser = () => {
     isFetching: adcIsFetching,
     error: adcError,
   } = useListAdConnectSettingsQuery({ tenantDomain })
-  console.log(adconnectsettings)
 
   const {
     data: domains = [],
@@ -101,14 +100,13 @@ const AddUser = () => {
     genericPostRequest({ path: '/api/AddUser', values: shippedValues })
   }
   const usagelocation = useSelector((state) => state.app.usageLocation)
-
   const initialState = {
     Autopassword: true,
     usageLocation: usagelocation,
   }
 
   return (
-    <CippPage tenantSelector={true} title="Add User">
+    <CippPage title="Add User">
       {postResults.isSuccess && (
         <CCallout color="success" dismissible>
           {postResults.data?.Results.map((result, index) => (
