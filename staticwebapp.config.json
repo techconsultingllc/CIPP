@@ -7,7 +7,7 @@
       }
     },
     {
-      "route": "*.{png,jpg,gif,json,xml,ico,css,js}",
+      "route": "*.{png,jpg,gif,xml,ico,css,js}",
       "headers": {
         "cache-control": "must-revalidate, max-age=15770000"
       }
@@ -35,12 +35,8 @@
       "redirect": "/.auth/logout?post_logout_redirect_uri=/LogoutRedirect"
     },
     {
-      "route": "/api/ExecSAMSetup",
+      "route": "/authredirect",
       "allowedRoles": ["admin", "editor", "readonly", "authenticated", "anonymous"]
-    },
-    {
-      "route": "/api/AddStandardsDeploy",
-      "allowedRoles": ["admin"]
     },
     {
       "route": "/LogoutRedirect",
@@ -51,52 +47,12 @@
       "allowedRoles": ["admin", "editor", "readonly", "authenticated", "anonymous"]
     },
     {
-      "route": "/api/RemoveStandard",
-      "allowedRoles": ["admin"]
-    },
-    {
-      "route": "/api/add*",
-      "allowedRoles": ["admin", "editor"]
-    },
-    {
-      "route": "/api/edit*",
-      "allowedRoles": ["admin", "editor"]
-    },
-    {
-      "route": "/api/ExecSendPush",
-      "allowedRoles": ["admin", "editor", "readonly"]
-    },
-    {
-      "route": "/api/ExecExcludeTenant",
-      "allowedRoles": ["admin"]
-    },
-    {
-      "route": "/api/Exec*",
-      "allowedRoles": ["admin", "editor"]
-    },
-    {
-      "route": "/api/Remove*",
-      "allowedRoles": ["admin", "editor"]
-    },
-    {
-      "route": "/cipp/*",
-      "allowedRoles": ["admin"]
-    },
-    {
-      "route": "/tenant/standards/*",
-      "allowedRoles": ["admin"]
-    },
-    {
-      "route": "/",
-      "allowedRoles": ["admin", "editor", "readonly", "reader"]
-    },
-    {
       "route": "/api/Public*",
-      "allowedRoles": ["admin", "editor", "readonly", "reader", "authenticated", "anonymous"]
+      "allowedRoles": ["admin", "editor", "readonly", "authenticated", "anonymous"]
     },
     {
       "route": "*",
-      "allowedRoles": ["admin", "editor", "readonly", "reader"]
+      "allowedRoles": ["admin", "editor", "readonly", "authenticated"]
     }
   ],
   "navigationFallback": {

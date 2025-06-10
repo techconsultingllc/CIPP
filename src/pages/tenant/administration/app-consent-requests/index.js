@@ -1,17 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import { Layout as DashboardLayout } from "/src/layouts/index.js";
 import { CippTablePage } from "/src/components/CippComponents/CippTablePage.jsx";
-import {
-  Grid,
-  Button,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  Typography,
-} from "@mui/material";
+import { Button, Accordion, AccordionSummary, AccordionDetails, Typography } from "@mui/material";
+import { Grid } from "@mui/system";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useForm } from "react-hook-form";
 import CippFormComponent from "/src/components/CippComponents/CippFormComponent";
+import { useSettings } from "/src/hooks/use-settings";
 
 const simpleColumns = [
   "Tenant",
@@ -27,6 +22,7 @@ const apiUrl = "/api/ListAppConsentRequests";
 const pageTitle = "App Consent Requests";
 
 const Page = () => {
+  const tenantFilter = useSettings().currentTenant;
   const formControl = useForm({
     defaultValues: {
       requestStatus: "All",
@@ -50,6 +46,7 @@ const Page = () => {
 
   return (
     <CippTablePage
+      // FIXME: This tableFilter does nothing. It does not change the table data at all, like the code makes it seem like it should. -Bobby
       tableFilter={
         <Accordion expanded={expanded} onChange={() => setExpanded(!expanded)}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -59,7 +56,7 @@ const Page = () => {
             <form onSubmit={formControl.handleSubmit(onSubmit)}>
               <Grid container spacing={2}>
                 {/* Request Status Filter */}
-                <Grid item xs={12}>
+                <Grid item size={{ xs: 12 }}>
                   <CippFormComponent
                     type="autoComplete"
                     name="requestStatus"
@@ -76,7 +73,7 @@ const Page = () => {
                 </Grid>
 
                 {/* Submit Button */}
-                <Grid item xs={12}>
+                <Grid item size={{ xs: 12 }}>
                   <Button type="submit" variant="contained" color="primary">
                     Apply Filters
                   </Button>
@@ -89,7 +86,15 @@ const Page = () => {
       title={pageTitle}
       apiUrl={apiUrl}
       simpleColumns={simpleColumns}
-      queryKey={`AppConsentRequests-${JSON.stringify(filterParams)}`}
+      filters={[
+        // Filter for showing only pending requests
+        {
+          filterName: "Pending requests",
+          value: [{ id: "requestStatus", value: "InProgress" }],
+          type: "column",
+        },
+      ]}
+      queryKey={`AppConsentRequests-${JSON.stringify(filterParams)}-${tenantFilter}`}
       apiData={{
         ...filterParams,
       }}
@@ -103,23 +108,23 @@ const Page = () => {
           "reviewedBy", // Reviewed by
           "reviewedJustification", // Reviewed Reason
         ],
-        actions: [
-          {
-            label: "Review in Entra",
-            link: `https://entra.microsoft.com/[TenantFilter]/#view/Microsoft_AAD_IAM/StartboardApplicationsMenuBlade/~/AccessRequests`,
-            color: "info",
-            target: "_blank",
-            external: true,
-          },
-          {
-            label: "Approve in Entra",
-            link: "[consentUrl]",
-            color: "info",
-            target: "_blank",
-            external: true,
-          },
-        ],
       }}
+      actions={[
+        {
+          label: "Review in Entra",
+          link: `https://entra.microsoft.com/${tenantFilter}/#view/Microsoft_AAD_IAM/StartboardApplicationsMenuBlade/~/AccessRequests`,
+          color: "info",
+          target: "_blank",
+          external: true,
+        },
+        {
+          label: "Approve in Entra",
+          link: "[consentUrl]",
+          color: "info",
+          target: "_blank",
+          external: true,
+        },
+      ]}
     />
   );
 };
